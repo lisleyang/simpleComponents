@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box {
+            position: relative;
+            text-align: center;
+            margin: 0 auto;
+            width: 50%;
+        }
+        
+        #box input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <img src="./images/upload.png" alt="" width="150" height="100">
+        <span>上传进度:0%</span>
+    </div>
+
+</body>
+<script>
+    var oInput = document.createElement("input");
+    oInput.type = "file";
+    document.getElementById("box").appendChild(oInput);
+
+    oInput.addEventListener("change", function(e) {
+        var oForm = new FormData();
+        console.log(e.target.files);
+        oForm.append("file", e.target.files[0]);
+
+        var xhr = new XMLHttpRequest()
+        xhr.open("PUT", 'https://frankfang.com/image-server/upload')
+        xhr.onreadystatechange = function() {
+            console.log(xhr.readyState, xhr.status);
+        }
+        xhr.onload = function() {
+            console.log(arguments);
+            console.log(xhr)
+            var imgKey = JSON.parse(xhr.response).key;
+            document.querySelector("#box img").src = 'https://frankfang.com/image-server/upload/' + imgKey;
+        }
+        xhr.upload.addEventListener("progress", function(evt) {
+            if (evt.lengthComputable) {
+                var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+                console.log(percentComplete)
+                document.querySelector("#box span").innerHTML = "上传进度" + percentComplete + "%";
+                //document.getElementById("show" + fileId + "Me").innerHTML = '上传中' + percentComplete + "%";
+            } else {
+                document.getElementById("show" + fileId + "Me").innerHTML = '无法计算';
+            }
+        }, false);
+        xhr.onerror = function() {
+            console.log(arguments);
+        }
+        xhr.send(oForm)
+    })
+</script>
+
+</html>

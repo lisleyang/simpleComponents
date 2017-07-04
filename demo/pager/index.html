@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .pageList {
+            border-top: 1px solid #ddd;
+            border-left: 1px solid #ddd;
+            background-color: #fff;
+            display: inline-block;
+            color: #214e75;
+        }
+        
+        .pageList li {
+            display: inline-block;
+            font-size: 16px;
+            line-height: 16px;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            padding: 6px 8px;
+        }
+        
+        li.pageNums {
+            padding: 0;
+            border: 0px;
+        }
+        /*        .pageList .pagefirst,
+        .pageList .pagelast,
+        .pageList .pageprev,
+        .pageList .pagenext {}*/
+        
+        .pageList .disable {
+            color: #999;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<p id="container" style="text-align:center;padding:20px;">
+
+</p>
+
+<body>
+    <script src="../../lib/pager/index.js"></script>
+    <script>
+        new Pager({
+            element: document.getElementById("container"),
+            totalPage: 20,
+            currentPage: 1,
+            pageChange: function(e) {
+                console.log(e);
+            }
+        })
+    </script>
+</body>
+
+</html>
